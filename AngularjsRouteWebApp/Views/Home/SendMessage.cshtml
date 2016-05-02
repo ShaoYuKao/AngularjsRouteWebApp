@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "SendMessage";
+}
+
+<h2>SendMessage</h2>
+
+<input id="txtMsg" type="text" />
+<input id="btnSend" type="button" value="傳送" />
+<ul id="chatRoom"></ul>
+
+@section scripts
+{
+    <script>
+        var chat = $.connection.myHub;
+
+        //signalR啟動完成後，要執行的動作
+        $.connection.hub.start().done(function () {
+            $('#btnSend').click(function () {
+                //Client端呼叫Server端
+                chat.server.hello($('#txtMsg').val());
+            });
+        });
+
+        //Client端供Server端呼叫的方法
+        chat.client.show = function (message) {
+            $('#chatRoom').append('<li>' + message + '</li>');
+        };
+
+    </script>
+}
