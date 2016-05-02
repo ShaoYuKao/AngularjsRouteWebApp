@@ -40,17 +40,30 @@
         console.log(data);
     }).error(function (err) { });
 
-    $scope.myHub = $.connection.myHub; //chatHub小寫
-
-    $.connection.hub.start().done(function () {
-        $scope.myHub.server.hello();
+    var connection = $.hubConnection();
+    var myHubProxy = connection.createHubProxy('myHub');
+    myHubProxy.on('show', function (msg) {
+        $rootScope.$apply(function () {
+            $scope.data.push(msg);
+            console.log($scope.data);
+        });
+    });
+    connection.start().done(function () {
+        //$scope.myHub.server.hello();
     });
 
-    $scope.myHub.client.show = function (msg) {
-        $scope.data.push(msg);
-        console.log($scope.data);
-        $rootScope.$apply();//更新
-    };
+
+    //$scope.myHub = $.connection.myHub; //chatHub小寫
+
+    //$.connection.hub.start().done(function () {
+    //    $scope.myHub.server.hello();
+    //});
+
+    //$scope.myHub.client.show = function (msg) {
+    //    $scope.data.push(msg);
+    //    console.log($scope.data);
+    //    $rootScope.$apply();//更新
+    //};
 
 }])
 .controller('AboutController', function ($scope) {
