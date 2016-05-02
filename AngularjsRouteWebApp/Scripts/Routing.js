@@ -42,15 +42,15 @@
 
     $scope.myHub = $.connection.myHub; //chatHub小寫
 
-    $.connection.hub.start().done(function () {
-        $scope.myHub.server.hello();
-    });
-
     $scope.myHub.client.show = function (msg) {
         $scope.data.push(msg);
         console.log($scope.data);
         $rootScope.$apply();//更新
     };
+
+    $.connection.hub.start().done(function () {
+        $scope.myHub.server.hello();
+    });
 
 }])
 .controller('AboutController', function ($scope) {

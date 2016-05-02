@@ -14,6 +14,11 @@
     <script>
         var chat = $.connection.myHub;
 
+        //Client端供Server端呼叫的方法
+        chat.client.show = function (message) {
+            $('#chatRoom').append('<li>' + message + '</li>');
+        };
+
         //signalR啟動完成後，要執行的動作
         $.connection.hub.start().done(function () {
             $('#btnSend').click(function () {
@@ -21,11 +26,6 @@
                 chat.server.hello($('#txtMsg').val());
             });
         });
-
-        //Client端供Server端呼叫的方法
-        chat.client.show = function (message) {
-            $('#chatRoom').append('<li>' + message + '</li>');
-        };
 
     </script>
 }
